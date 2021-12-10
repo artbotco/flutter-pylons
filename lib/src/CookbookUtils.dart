@@ -1,45 +1,22 @@
 import 'dart:ffi';
-import 'dart:html';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:pylons_sdk/pylons_sdk.dart';
 import 'dart:developer';
 
-String cookBookId = "artbot_cookbook_0";
+String cookBookId = "cookbook_arbot_1";
 
 var cookBook = Cookbook(
-    creator: "",
+    creator: "Artbot.tv",
     iD: cookBookId,
     name: "Artbot Cookbook",
     nodeVersion: "v0.1.3",
-    description: "Cookbook",
+    description: "Cookbook, maybe this has to be really long too",
     developer: "Artbot.tv",
     version: "v0.0.1",
     supportEmail: "support@artbot.tv",
-    costPerBlock: Coin(denom: "upylon", amount: "1000000"),
-    enabled: true);
-
-class CookbookUtils {
-  void createCookBook() async {
-    var response = await PylonsWallet.instance.txCreateCookbook(cookBook);
-  }
-
-  void getCookbook() async {
-    var sdkResponse = await PylonsWallet.instance.getCookbook(cookBookId);
-    log(sdkResponse.toString(), name: 'pylons_sdk');
-  }
-
-  void updateCookBook() async {
-    var response = await PylonsWallet.instance.txUpdateCookbook(cookBook);
-    log('From App $response', name: 'pylons_sdk');
-  }
-}
-
-/*
-tickets and recipes
- */
-
-
+    enabled: true
+);
 
 String createTicketRecipeId = "create_ticket_recipe";
 String bronzeRecipeId = "bronzeTicketRecipe";
@@ -60,7 +37,16 @@ enum TicketTier {
 
 class PublicInterface {
 
-  void setupRecipes(){
+  static void createCookbook() async{
+    var response = await PylonsWallet.instance.txCreateCookbook(cookBook);
+    if (response.success) {
+    log('cookbook create success');
+    } else {
+      log('cook create failed');
+    }
+  }
+
+  static void setupRecipes(){
     var bronzeRecipe = createTicketRecipe(TicketTier.Bronze);
     var silverRecipe = createTicketRecipe(TicketTier.Silver);
     var goldRecipe = createTicketRecipe(TicketTier.Gold);
@@ -73,7 +59,7 @@ class PublicInterface {
     TicketDecrement.createDecrementTicketRecipe(goldTicket);
   }
 
-  ItemOutput createTicketForTier(TicketTier tier){
+  static ItemOutput createTicketForTier(TicketTier tier){
 
     if (tier == TicketTier.Silver) {
       TicketCreation.executeCreateTicketRecipe(tier: TicketTier.Silver);
@@ -138,30 +124,30 @@ Recipe createTicketRecipe(TicketTier tier){
 
   var recipeId = "";
   if (tier == TicketTier.Bronze){
-    lparam.setField(0, 1);
+    // lparam.setField(0, 1);
     recipeId = bronzeRecipeId;
     ticketItemOutput = bronzeTicket;
   }
   else if (tier == TicketTier.Silver){
-    lparam.setField(0, 3);
+    // lparam.setField(0, 3);
     recipeId = silverRecipeId;
     ticketItemOutput = silverTicket;
   }
   else if (tier == TicketTier.Gold){
-    lparam.setField(0, 5);
+    // lparam.setField(0, 5);
     recipeId = goldRecipeId;
     ticketItemOutput = goldTicket;
   }
 
   ticketItemOutput.iD = itemId;
-  ticketItemOutput.longs.add(lparam);
+  // ticketItemOutput.longs.add(lparam);
 
   return Recipe(
       cookbookID: cookBookId,
       iD: recipeId,
       nodeVersion: "v0.1.3",
       name: recipeId,
-      description: "Create a ticket",
+      description: "Create a ticket and make this at least 20 characters.",
       version: "v0.1.3",
       coinInputs: [],
       itemInputs: [],

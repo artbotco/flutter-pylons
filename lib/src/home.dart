@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_signup/src/CookbookUtils.dart';
 import 'Widget/bezierContainer.dart';
 
 class Home extends StatefulWidget {
@@ -37,9 +38,49 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Widget _cookbookButton() {
+    return InkWell(
+        onTap: () async {
+          PublicInterface.createCookbook();
+        },
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.symmetric(vertical: 15),
+          margin: EdgeInsets.symmetric(vertical: 10),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: Colors.grey.shade200,
+                    offset: Offset(2, 4),
+                    blurRadius: 5,
+                    spreadRadius: 2)
+              ],
+              gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [Color(0xfffbb448), Color(0xfff7892b)])),
+          child: Text(
+            "create cookbook",
+            style: TextStyle(fontSize: 20, color: Colors.white),
+          ),
+        ));
+  }
+
   Widget _submitButton(String title) {
     return InkWell(
-        onTap: () async {},
+        onTap: () async {
+          if (title == "bronze"){
+            PublicInterface.createTicketForTier(TicketTier.Bronze);
+          }
+          if (title == "silver"){
+            PublicInterface.createTicketForTier(TicketTier.Silver);
+          }
+          if (title == "gold"){
+            PublicInterface.createTicketForTier(TicketTier.Gold);
+          }
+        },
         child: Container(
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.symmetric(vertical: 15),
@@ -96,6 +137,7 @@ class _HomeState extends State<Home> {
                 children: <Widget>[
                   SizedBox(height: height * .2),
                   SizedBox(height: 50),
+                  _cookbookButton(),
                   _emailPasswordWidget(),
                   SizedBox(height: 20),
                   // _divider(),
