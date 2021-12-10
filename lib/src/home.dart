@@ -1,8 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_login_signup/src/signup.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import 'Widget/bezierContainer.dart';
 
 class Home extends StatefulWidget {
@@ -30,12 +27,51 @@ class _HomeState extends State<Home> {
           ),
           TextField(
               obscureText: isPassword,
+              onChanged: (value) {},
               decoration: InputDecoration(
                   border: InputBorder.none,
                   fillColor: Color(0xfff3f3f4),
                   filled: true))
         ],
       ),
+    );
+  }
+
+  Widget _submitButton(String title) {
+    return InkWell(
+        onTap: () async {},
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.symmetric(vertical: 15),
+          margin: EdgeInsets.symmetric(vertical: 10),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: Colors.grey.shade200,
+                    offset: Offset(2, 4),
+                    blurRadius: 5,
+                    spreadRadius: 2)
+              ],
+              gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [Color(0xfffbb448), Color(0xfff7892b)])),
+          child: Text(
+            title,
+            style: TextStyle(fontSize: 20, color: Colors.white),
+          ),
+        ));
+  }
+
+  Widget _emailPasswordWidget() {
+    return Column(
+      children: <Widget>[
+        _submitButton("Bronze"),
+        _submitButton("Silver"),
+        _submitButton("Gold"),
+      ],
     );
   }
 
@@ -60,14 +96,8 @@ class _HomeState extends State<Home> {
                 children: <Widget>[
                   SizedBox(height: height * .2),
                   SizedBox(height: 50),
+                  _emailPasswordWidget(),
                   SizedBox(height: 20),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    alignment: Alignment.center,
-                    child: Text('Welcome',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold)),
-                  ),
                   // _divider(),
                   // _facebookButton(),
                   SizedBox(height: height * .055),
